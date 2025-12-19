@@ -17,9 +17,9 @@ export default function AdminLayout({
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const supabase = createClient()
 
   useEffect(() => {
+    const supabase = createClient()
     const checkAdmin = async () => {
       const {
         data: { user },
@@ -42,9 +42,10 @@ export default function AdminLayout({
     }
 
     checkAdmin()
-  }, [router, supabase])
+  }, [router])
 
   const handleLogout = async () => {
+    const supabase = createClient()
     await supabase.auth.signOut()
     router.push("/")
   }

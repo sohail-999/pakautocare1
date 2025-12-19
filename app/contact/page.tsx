@@ -14,7 +14,6 @@ export const dynamic = 'force-dynamic'
 export default function ContactPage() {
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
-  const supabase = createClient()
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -37,6 +36,7 @@ export default function ContactPage() {
     e.preventDefault()
     setLoading(true)
 
+    const supabase = createClient()
     try {
       const {
         data: { user },

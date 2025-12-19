@@ -8,9 +8,9 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [user, setUser] = useState<any>(null)
   const [cartCount, setCartCount] = useState(0)
-  const supabase = createClient()
 
   useEffect(() => {
+    const supabase = createClient()
     const getUser = async () => {
       const {
         data: { user },
@@ -22,6 +22,7 @@ export function Navbar() {
 
   useEffect(() => {
     if (user) {
+      const supabase = createClient()
       const fetchCartCount = async () => {
         try {
           const { data, error } = await supabase.from("cart_items").select("quantity").eq("user_id", user.id)
@@ -54,6 +55,7 @@ export function Navbar() {
   }, [user])
 
   const handleLogout = async () => {
+    const supabase = createClient()
     await supabase.auth.signOut()
     setUser(null)
     window.location.href = "/"

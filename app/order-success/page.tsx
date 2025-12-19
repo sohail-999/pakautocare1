@@ -9,14 +9,16 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { CheckCircle } from "lucide-react"
 
+export const dynamic = 'force-dynamic'
+
 export default function OrderSuccessPage() {
   const [order, setOrder] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
 
   useEffect(() => {
+    const supabase = createClient()
     const fetchOrder = async () => {
       if (!id) return
       const { data } = await supabase.from("orders").select("*").eq("id", id).single()

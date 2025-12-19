@@ -5,6 +5,8 @@ import { Footer } from "@/components/footer"
 import { Background3D } from "@/components/3d-page-background"
 import { PageTransition } from "@/components/page-transition"
 
+export const dynamic = 'force-dynamic'
+
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-red-50 to-rose-50 relative overflow-hidden">

@@ -27,10 +27,10 @@ export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<any>(null)
-  const supabase = createClient()
   const router = useRouter()
 
   useEffect(() => {
+    const supabase = createClient()
     const getUser = async () => {
       const {
         data: { user },
@@ -47,6 +47,7 @@ export default function CartPage() {
   useEffect(() => {
     if (!user) return
 
+    const supabase = createClient()
     const fetchCart = async () => {
       const { data } = await supabase.from("cart_items").select("*, product:products(*)").eq("user_id", user.id)
 
@@ -63,12 +64,14 @@ export default function CartPage() {
       return
     }
 
+    const supabase = createClient()
     await supabase.from("cart_items").update({ quantity: newQuantity }).eq("id", cartItemId)
 
     setCartItems(cartItems.map((item) => (item.id === cartItemId ? { ...item, quantity: newQuantity } : item)))
   }
 
   const removeItem = async (cartItemId: string) => {
+    const supabase = createClient()
     await supabase.from("cart_items").delete().eq("id", cartItemId)
     setCartItems(cartItems.filter((item) => item.id !== cartItemId))
   }

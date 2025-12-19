@@ -10,11 +10,11 @@ import { useCart } from "@/lib/contexts"
 export function NavbarStatic() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
   const { isDark } = useTheme()
   const { cart } = useCart()
 
   useEffect(() => {
+    const supabase = createClient()
     const getUser = async () => {
       const {
         data: { user },
@@ -26,6 +26,7 @@ export function NavbarStatic() {
   }, [])
 
   const handleLogout = async () => {
+    const supabase = createClient()
     await supabase.auth.signOut()
     setUser(null)
     window.location.href = "/"

@@ -26,10 +26,10 @@ export default function CheckoutPage() {
     paymentMethod: "bank_transfer",
   })
   const [loading, setLoading] = useState(false)
-  const supabase = createClient()
   const router = useRouter()
 
   useEffect(() => {
+    const supabase = createClient()
     const getUser = async () => {
       const {
         data: { user },
@@ -46,6 +46,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (!user) return
 
+    const supabase = createClient()
     const fetchCart = async () => {
       const { data } = await supabase.from("cart_items").select("*, product:products(*)").eq("user_id", user.id)
 
@@ -59,6 +60,7 @@ export default function CheckoutPage() {
     e.preventDefault()
     setLoading(true)
 
+    const supabase = createClient()
     try {
       const total = cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
 
