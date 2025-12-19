@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  basePath: '/pakautocare1',
+  assetPrefix: '/pakautocare1',
+  trailingSlash: true,
   typescript: {
     ignoreBuildErrors: true,
   },
