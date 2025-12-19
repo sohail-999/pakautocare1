@@ -90,7 +90,7 @@ export default function CheckoutPage() {
         await supabase.from("cart_items").delete().eq("user_id", user.id)
 
         // Redirect to success page
-        router.push(`/order-success/${order.id}`)
+        router.push(`/order-success?id=${order.id}`)
       }
     } catch (error) {
       console.error("Error creating order:", error)

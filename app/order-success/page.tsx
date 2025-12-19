@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -8,21 +9,24 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { CheckCircle } from "lucide-react"
 
-export default function OrderSuccessPage({ params }: { params: { id: string } }) {
+export default function OrderSuccessPage() {
   const [order, setOrder] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
 
   useEffect(() => {
     const fetchOrder = async () => {
-      const { data } = await supabase.from("orders").select("*").eq("id", params.id).single()
+      if (!id) return
+      const { data } = await supabase.from("orders").select("*").eq("id", id).single()
 
       setOrder(data)
       setLoading(false)
     }
 
     fetchOrder()
-  }, [params.id])
+  }, [id])
 
   if (loading) {
     return (
