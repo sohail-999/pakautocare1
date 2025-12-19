@@ -5,12 +5,14 @@ import { NavbarStatic } from "@/components/navbar-static"
 import { Footer } from "@/components/footer"
 import Link from "next/link"
 import { Background3D } from "@/components/3d-page-background"
+import { useTheme } from "@/lib/contexts"
 
 export const dynamic = 'force-dynamic'
 
 export default function Home() {
+  const { isDark } = useTheme()
   return (
-    <main className="min-h-screen bg-gradient-to-b from-red-50 to-rose-50 relative overflow-hidden">
+    <main className={`min-h-screen transition-colors duration-300 relative overflow-hidden ${isDark ? "bg-gray-950" : "bg-gradient-to-b from-red-50 to-rose-50"}`}>
       <div className="absolute inset-0 z-0">
         <Background3D type="car-shine" />
       </div>

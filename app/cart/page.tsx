@@ -10,6 +10,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Background3D } from "@/components/3d-page-background"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useTheme, useCart } from "@/lib/contexts"
 
 interface CartItem {
   id: string

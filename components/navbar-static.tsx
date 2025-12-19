@@ -3,11 +3,16 @@
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { useTheme } from "@/lib/contexts"
+import { ThemeToggle } from "./theme-toggle"
+import { useCart } from "@/lib/contexts"
 
 export function NavbarStatic() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
+  const { isDark } = useTheme()
+  const { cart } = useCart()
 
   useEffect(() => {
     const getUser = async () => {
@@ -27,7 +32,7 @@ export function NavbarStatic() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <nav className={`sticky top-0 z-50 transition-colors duration-300 ${isDark ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"} border-b shadow-sm`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -39,37 +44,43 @@ export function NavbarStatic() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link href="/products" className="text-gray-700 hover:text-red-600 transition">
+          <div className={`hidden md:flex items-center gap-8 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+            <Link href="/products" className={`${isDark ? "hover:text-pink-400" : "hover:text-red-600"} transition`}>
               Products
             </Link>
-            <Link href="/subscription" className="text-gray-700 hover:text-red-600 transition">
+            <Link href="/subscription" className={`${isDark ? "hover:text-pink-400" : "hover:text-red-600"} transition`}>
               Subscription
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-red-600 transition">
+            <Link href="/about" className={`${isDark ? "hover:text-pink-400" : "hover:text-red-600"} transition`}>
               About
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-red-600 transition">
+            <Link href="/contact" className={`${isDark ? "hover:text-pink-400" : "hover:text-red-600"} transition`}>
               Contact
             </Link>
           </div>
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
-            <Link href="/cart" className="text-gray-700 hover:text-red-600 transition font-semibold">
+            <ThemeToggle />
+            <Link href="/cart" className={`relative font-semibold transition ${isDark ? "text-pink-400 hover:text-pink-300" : "text-red-600 hover:text-red-700"}`}>
               🛒 Cart
+              {cart.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                  {cart.length}
+                </span>
+              )}
             </Link>
             {!loading && user ? (
               <div className="flex items-center gap-2">
                 <Link
                   href="/protected/profile"
-                  className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 transition"
+                  className={`px-3 py-1 text-sm border rounded transition ${isDark ? "border-gray-600 hover:bg-gray-700" : "border-gray-300 hover:bg-gray-50"}`}
                 >
                   Profile
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="px-3 py-1 text-sm text-red-600 hover:text-red-700 transition font-semibold"
+                  className={`px-3 py-1 text-sm font-semibold transition ${isDark ? "text-pink-400 hover:text-pink-300" : "text-red-600 hover:text-red-700"}`}
                   title="Logout"
                 >
                   Logout
@@ -79,13 +90,13 @@ export function NavbarStatic() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/auth/login"
-                  className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 transition"
+                  className={`px-3 py-1 text-sm border rounded transition ${isDark ? "border-gray-600 hover:bg-gray-700" : "border-gray-300 hover:bg-gray-50"}`}
                 >
                   Login
                 </Link>
                 <Link
                   href="/auth/sign-up"
-                  className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+                  className="px-3 py-1 text-sm bg-gradient-to-r from-red-500 to-pink-500 text-white rounded hover:opacity-90 transition"
                 >
                   Sign Up
                 </Link>
